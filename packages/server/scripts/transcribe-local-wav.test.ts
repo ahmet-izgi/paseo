@@ -70,7 +70,16 @@ describe("transcribe-local-wav CLI", () => {
 
     const result = spawnSync(
       process.execPath,
-      ["--import", "tsx", scriptPath, wavPath, "--models-dir", modelsDir],
+      [
+        "--import",
+        "tsx",
+        scriptPath,
+        wavPath,
+        "--model",
+        "parakeet-tdt-0.6b-v3-int8",
+        "--models-dir",
+        modelsDir,
+      ],
       {
         encoding: "utf8",
         timeout: 15_000,
@@ -80,7 +89,7 @@ describe("transcribe-local-wav CLI", () => {
     expect(result.error).toBeUndefined();
     expect(result.status).toBe(1);
     expect(result.stderr).toContain(
-      "Local STT service is unavailable. Check model files or run `npm run speech:download -- --model parakeet-tdt-0.6b-v2-int8`.",
+      "Local STT service is unavailable. Check model files or run `npm run speech:download -- --model parakeet-tdt-0.6b-v3-int8`.",
     );
     expect(result.stderr).not.toContain("Error: Missing offline encoder:");
     expect(result.stderr).not.toContain("at LocalSpeechWorkerClient.handleWorkerMessage");
